@@ -8,8 +8,15 @@
     />
     <style>
       .sidebar {
-        background-color: #f8f9fa;
+        background-color: #222b40;
+        color: white;
         height: 100vh;
+      }
+      .nav-link {
+        color: rgb(148, 148, 148);
+      }
+      .nav-link.active {
+        color: rgb(24, 149, 245);
       }
       .nav-link:hover {
         cursor: pointer;
@@ -30,8 +37,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-2 sidebar">
-          <h4>CRM</h4>
-          <ul class="nav flex-column">
+          <h4 style="margin-top: 60px">HARONE CRM</h4>
+          <ul class="nav flex-column mt-5">
             <li class="nav-item">
               <a class="nav-link" data-content="content1">Dashboard</a>
             </li>
@@ -76,9 +83,21 @@
           link.addEventListener("click", function (e) {
             e.preventDefault();
             const contentId = this.getAttribute("data-content");
+
+            // Remove active class from all nav links
+            navLinks.forEach(function (navLink) {
+              navLink.classList.remove("active");
+            });
+
+            // Add active class to the clicked nav link
+            this.classList.add("active");
+
+            // Hide all contents
             contents.forEach(function (content) {
               content.style.display = "none";
             });
+
+            // Show the corresponding content
             document.getElementById(contentId).style.display = "block";
           });
         });
