@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .sidebar {
+        background-color: #f8f9fa;
+        height: 100vh;
+      }
+      .nav-link:hover {
+        cursor: pointer;
+      }
+      .main-container {
+        padding: 20px;
+      }
+      .nav-row {
+        height: 50px;
+        margin-bottom: 10px;
+      }
+      .content {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-2 sidebar">
+          <h4>CRM</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" data-content="content1">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content2">Item 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content3">Item 3</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content4">Item 4</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content5">Item 5</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content6">Clients</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content7">Onboard screen</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-10 main-container">
+          <div id="content1" class="content">This is for Dashboard</div>
+          <div id="content2" class="content">Content for Item 2</div>
+          <div id="content3" class="content">Content for Item 3</div>
+          <div id="content4" class="content">Content for Item 4</div>
+          <div id="content5" class="content">Content for Item 5</div>
+          <div id="content6" class="content">This is for Customers</div>
+          <div id="content7" class="content">This is for onboard screening</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".nav-link");
+        const contents = document.querySelectorAll(".content");
+
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const contentId = this.getAttribute("data-content");
+            contents.forEach(function (content) {
+              content.style.display = "none";
+            });
+            document.getElementById(contentId).style.display = "block";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

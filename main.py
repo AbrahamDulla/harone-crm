@@ -15,7 +15,23 @@ async def redirect_to_login():
 
 @app.get('/login')
 async def login(request: Request):
-    return views.TemplateResponse("crm/login.html", {"request": request, "first_message": "Abraham"})
+    return views.TemplateResponse("web/login.html", {"request": request})
+
+@app.get('/register')
+async def login(request: Request):
+    return views.TemplateResponse("web/register.html", {"request": request})
+
+@app.get('/request')
+async def login(request: Request):
+    return views.TemplateResponse("web/request.html", {"request": request})
+
+@app.get('/crm')
+async def login(request: Request):
+    return views.TemplateResponse("crm/dashboard.html", {"request": request})
+
+@app.get('/crm/login')
+async def login(request: Request):
+    return views.TemplateResponse("crm/login.html", {"request": request})
 
 @app.get("/abrelo")
 def ab(request: Request):
