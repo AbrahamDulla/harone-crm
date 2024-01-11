@@ -1,6 +1,4 @@
 from fastapi import HTTPException
-from typing import List
-# from ..env.dbConnection import harone_crm_db
 
 def get_user(db, user_id: int):
     query = "SELECT * FROM users WHERE id = :user_id"

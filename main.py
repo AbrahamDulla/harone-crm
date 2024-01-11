@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from env.dbConnection import harone_crm_db
+from sqlalchemy.orm import Session
 app = FastAPI()
 views = Jinja2Templates(directory="views")
 
@@ -8,8 +10,12 @@ from services.userService import (get_user, get_users, create_user, update_user,
 
 
 @app.get('/')
-async def home(request: Request):
-    return views.TemplateResponse("home.html", {"request": request, "first_message": "Abraham"})
+async def redirect_to_login():
+    return RedirectResponse(url="/login")
+
+@app.get('/login')
+async def login(request: Request):
+    return views.TemplateResponse("crm/login.html", {"request": request, "first_message": "Abraham"})
 
 @app.get("/abrelo")
 def ab(request: Request):
@@ -27,7 +33,7 @@ def read_user(user_id: int, db = Depends(harone_crm_db)):
 
 @app.post("/users")
 def create_user(user_data, db = Depends(harone_crm_db)):
-    return create_user(db, user_data)
+    return create_user(db, user_data) 
 
 @app.put("/users/{user_id}")
 def update_user(user_id: int, user_data, db = Depends(harone_crm_db)):
