@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Harone CRM</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h4 class="mt-5">Customer Names:</h4>
+      <ul class="list-group">
+        {% for row in first_message %}
+        <li class="list-group-item">{{ row[1] }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

@@ -1,12 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
-
+from env.dbConnection import harone_crm_db
 app = FastAPI()
+views = Jinja2Templates(directory="views")
+# from .routes.userRoute import router as user_router
 
-templates = Jinja2Templates(directory="templates")
-
-name = "python"
 
 @app.get('/')
 async def home(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request, "first_message": f"I Love {name}"})
+    return views.TemplateResponse("home.html", {"request": request, "first_message": "Abraham"})
