@@ -43,22 +43,27 @@ async def dashboard(request: Request):
 
 
 @app.post("/login")
-def login_post(
-    request: Request, 
-    credentials: Annotated[HTTPBasicCredentials, Depends(security)]
-):
-    username = credentials.username
-    password = credentials.password
+async def login_post(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
+    # username = credentials.username
+    # password = credentials.password
+    username = "admin"
+    password = "password"
+    role = "customer"
 
     print("Received credentials:", credentials)
     print("Username:", username)
     print("Password:", password)
 
-    if auth_service.authenticate_user(username, password):
-        return views.TemplateResponse("crm/dashboard.html", {"request": request, "username": username})
+    if await auth_service.authenticate_user(username, password):
+        if role == "admin":
+                return views.TemplateResponse("crm/dashboard.html", {"request": request, "username": username})
+        elif role == "customer":
+                return views.TemplateResponse("web/register.html", {"request": request})
+        else:
+                return views.TemplateResponse("login.html", {"request": request, "error_message": "Invalid role"})
     else:
-        return {"username": credentials.username, "password": credentials.password}
-        # return views.TemplateResponse("login.html", {"request": request, "error_message": "Invalid username or password"})
+        # return {"username": credentials.username, "password": credentials.password}
+        return views.TemplateResponse("login.html", {"request": request, "error_message": "Invalid username or password"})
 
 # users routes
 @app.get("/users")
