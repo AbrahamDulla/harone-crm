@@ -12,7 +12,11 @@
       <div class="row justify-content-center">
         <div class="col-md-4 mt-5 mb-5">
           <h3>Request for onboard</h3>
-          <form action="http://localhost:8000/send/request" method="post">
+          <form
+            id="customerForm"
+            action="http://localhost:8000/send/request"
+            method="post"
+          >
             <div class="form-group">
               <label for="user_name">Company name</label>
               <input
@@ -62,8 +66,32 @@
             <button type="submit" class="btn btn-primary">Request</button>
             <a href="/login" class="btn btn-link">Logout</a>
           </form>
+          <div class="mt-2" id="responseMessage"></div>
         </div>
       </div>
     </div>
   </body>
 </html>
+
+<script>
+  document
+    .getElementById("customerForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault(); 
+
+      fetch("/send/request", {
+        method: "POST",
+        body: new FormData(this),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            document.getElementById("responseMessage").innerText = data.message;
+          }
+          if (data.error) {
+            document.getElementById("responseMessage").innerText = data.error;
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+</script>
