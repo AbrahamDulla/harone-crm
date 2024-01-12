@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
 from env.dbConnection import get_database_connection, close_database_connection
-from services.userService import (get_user, get_users, create_user, update_user, delete_user)
+from services.userService import (get_all_users)
 from mysql.connector import Error
 
 app = FastAPI()
@@ -40,49 +40,8 @@ async def dashboard(request: Request):
 async def crmLogin(request: Request):
     return views.TemplateResponse("crm/login.html", {"request": request})
 
-@app.get("/abrelo")
-def ab(request: Request):
-    return {"message": "abraham"}
 
 # users routes
 @app.get("/users")
 def read_users(db=Depends(get_database_connection)):
-    return get_users(db)
-
-@app.get("/users/{user_id}")
-def read_user(user_id: int, db=Depends(get_database_connection)):
-    return get_user(db, user_id)
-
-@app.post("/users")
-def create_user(user_data, db=Depends(get_database_connection)):
-    return create_user(db, user_data)
-
-@app.put("/users/{user_id}")
-def update_user(user_id: int, user_data, db=Depends(get_database_connection)):
-    return update_user(db, user_id, user_data)
-
-@app.delete("/users/{user_id}")
-def delete_user(user_id: int, db=Depends(get_database_connection)):
-    delete_user(db, user_id)
-    return {"message": "User deleted"}
-
-@app.get("/userrr")
-async def get_users():
-    try:
-        with app.db_connection.cursor() as cursor:
-            query = "SELECT * FROM users"
-            cursor.execute(query)
-            result = cursor.fetchall()
-
-            users = []
-            for row in result:
-                user = {
-                    "id": row[0],
-                    "name": row[1],
-                    "email": row[2]
-                }
-                users.append(user)
-
-            return JSONResponse(content=users)
-    except Error as e:
-        return JSONResponse(content={"error": str(e)})
+    return get_all_users()

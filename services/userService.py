@@ -1,36 +1,23 @@
-from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+from env.dbConnection import get_database_connection
+from mysql.connector import Error
 
-def get_user(db, user_id: int):
-    query = "SELECT * FROM users WHERE id = :user_id"
-    result = db.execute(query, {"user_id": user_id}).fetchone()
-    if not result:
-        raise HTTPException(status_code=404, detail="User not found")
-    return dict(result)
+def get_all_users():
+    try:
+        with get_database_connection().cursor() as cursor:
+            query = "SELECT * FROM users"
+            cursor.execute(query)
+            result = cursor.fetchall()
 
-def get_users(db):
-    query = "SELECT * FROM users"
-    results = db.execute(query).fetchall()
-    return [dict(result) for result in results]
+            users = []
+            for row in result:
+                user = {
+                    "id": row[0],
+                    "name": row[1],
+                    "email": row[2]
+                }
+                users.append(user)
 
-def create_user(db, user_data):
-    query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)"
-    db.execute(query, user_data)
-    db.commit()
-    user_id = db.execute("SELECT LAST_INSERT_ID()").scalar()
-    return get_user(db, user_id)
-
-def update_user(db, user_id: int, user_data):
-    query = "UPDATE users SET username = :username, email = :email, password = :password WHERE id = :user_id"
-    user_data["user_id"] = user_id
-    result = db.execute(query, user_data)
-    if result.rowcount == 0:
-        raise HTTPException(status_code=404, detail="User not found")
-    db.commit()
-    return get_user(db, user_id)
-
-def delete_user(db, user_id: int):
-    query = "DELETE FROM users WHERE id = :user_id"
-    result = db.execute(query, {"user_id": user_id})
-    if result.rowcount == 0:
-        raise HTTPException(status_code=404, detail="User not found")
-    db.commit()
+            return JSONResponse(content=users)
+    except Error as e:
+        return JSONResponse(content={"error": str(e)})
