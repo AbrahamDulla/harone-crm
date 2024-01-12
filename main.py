@@ -53,9 +53,9 @@ async def register(request: Request):
 async def request_page(request: Request):
     return views.TemplateResponse("web/request.html", {"request": request})
 
-@app.get('/crm')
-async def dashboard(request: Request):
-    return views.TemplateResponse("crm/dashboard.html", {"request": request})
+# @app.get('/crm')
+# async def dashboard(request: Request):
+#     return views.TemplateResponse("crm/dashboard.html", {"request": request})
 
 
 
@@ -99,8 +99,8 @@ async def login_post(request: Request, username: str = Form(...), password: str 
         return views.TemplateResponse("login.html", {"request": request, "error_message": "Invalid username or password"})
 
 
-from fastapi.responses import JSONResponse
-
+# Customer Routers
+# Request for onboarding
 @app.post("/send/request", status_code=status.HTTP_201_CREATED)
 async def create_post(request: Request, db=Depends(get_database_connection)):
     form = await request.form()
@@ -121,4 +121,23 @@ async def create_post(request: Request, db=Depends(get_database_connection)):
             return JSONResponse(content={"message": customer.company_name + " Requested successfully", "request_id": request_id})
     except Error as e:
         return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_400_BAD_REQUEST)
+
+
+    
+
+from fastapi import Request
+
+@app.get('/crm')
+async def crm(request: Request, db=Depends(get_database_connection)):
+    try:
+        with db.cursor(dictionary=True) as cursor:
+            cursor.execute("SELECT * FROM customers")
+            customers = cursor.fetchall()
+            return views.TemplateResponse("crm/dashboard.html", {"request": request, "customers": customers})
+    except Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
 

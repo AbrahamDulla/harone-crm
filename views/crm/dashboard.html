@@ -87,14 +87,62 @@
             </li>
           </ul>
         </div>
-        <div class="col-10 main-container">
+        <div
+          class="col-10 main-container"
+          style="height: 100vh; overflow-y: scroll; overflow-x: hidden"
+        >
+          <div
+            style="
+              height: 50px;
+              width: 78vw;
+              background-color: #ebebeb;
+              position: sticky;
+            "
+          ></div>
           <div id="content1" class="content">This is for Dashboard</div>
           <div id="content2" class="content">Content for Item 2</div>
           <div id="content3" class="content">Content for Item 3</div>
           <div id="content4" class="content">Content for Item 4</div>
           <div id="content5" class="content">Content for Item 5</div>
           <div id="content6" class="content">This is for Customers</div>
-          <div id="content7" class="content">This is for onboard screening</div>
+          <div id="content7" class="content">
+            <div class="container mt-3">
+              <h4>Onboarding requests</h4>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Business Address</th>
+                    <th>Industry</th>
+                    <th>Action</th>
+                    <!-- Added Action Column Header -->
+                  </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                  {% for customer in customers %}
+                  <tr>
+                    <td>aberelo</td>
+                    <!-- Assuming this is a placeholder, replace with {{ customer.company_name }} if needed -->
+                    <td>{{ customer.company_email }}</td>
+                    <td>{{ customer.business_address }}</td>
+                    <td>{{ customer.industry }}</td>
+                    <td>
+                      <button class="btn btn-success btn-sm">Approve</button>
+                      <!-- Approve Button -->
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <!-- Pagination Controls -->
+              <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination">
+                  <!-- Pagination items will be added dynamically here -->
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -126,6 +174,50 @@
             document.getElementById(contentId).style.display = "block";
           });
         });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const pageSize = 6; 
+        const customers = Array.from(
+          document.querySelectorAll("#customerTableBody tr")
+        );
+        const totalCustomers = customers.length;
+        const totalPages = Math.ceil(totalCustomers / pageSize);
+
+        function renderPage(page) {
+          const start = (page - 1) * pageSize;
+          const end = start + pageSize;
+          customers.forEach((customer, index) => {
+            customer.style.display =
+              index >= start && index < end ? "" : "none";
+          });
+        }
+
+        function setupPagination() {
+          const paginationUl = document.getElementById("pagination");
+          for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.className = "page-item";
+            const a = document.createElement("a");
+            a.href = "#";
+            a.innerText = i;
+            a.className = "page-link";
+            a.addEventListener("click", (e) => {
+              e.preventDefault();
+              renderPage(i);
+            });
+            li.appendChild(a);
+            paginationUl.appendChild(li);
+          }
+        }
+
+        // Initial setup
+        setupPagination();
+        renderPage(1); // Render the first page initially
+
+        // Your existing navLinks code
+        // ...
       });
     </script>
   </body>
