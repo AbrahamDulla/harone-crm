@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-6 mt-5">
+        <div class="col-md-4 mt-5 mb-5">
           <h3>Request for onboard</h3>
           <form>
             <div class="form-group">
@@ -19,7 +19,7 @@
                 type="text"
                 class="form-control"
                 id="user_name"
-                placeholder="Enter your username"
+                placeholder="company name"
               />
             </div>
             <div class="form-group">
@@ -28,26 +28,25 @@
                 type="email"
                 class="form-control"
                 id="email"
-                placeholder="Enter your email"
+                placeholder="company email"
               />
             </div>
             <div class="form-group">
-              <label for="business_address">Business Address</label>
+              <label for="business_address">Business address</label>
               <input
                 type="text"
                 class="form-control"
                 id="business_address"
-                placeholder="Enter your email"
+                placeholder="business address"
               />
             </div>
             <div class="form-group">
               <label for="industry">Industry</label>
-              <input
-                type="text"
-                class="form-control"
-                id="industry"
-                placeholder="Enter your industry"
-              />
+              <select class="form-control" id="industry" name="industry">
+                <option value="technology">Technology</option>
+                <option value="agriculture">Agriculture</option>
+                <option value="manufacturing">Manufacturing</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="representative">Representative name</label>
@@ -55,7 +54,7 @@
                 type="text"
                 class="form-control"
                 id="representative"
-                placeholder="Enter representative name"
+                placeholder="representative"
               />
             </div>
               <label for="representativeEmail">Email</label>
@@ -63,7 +62,7 @@
                 type="email"
                 class="form-control"
                 id="representativeEmail"
-                placeholder="Enter representative email"
+                placeholder="representative email"
               />
               <div class="form-group">
                 <label for="representative_phone">Phone</label>
@@ -71,7 +70,7 @@
                   type="text"
                   class="form-control"
                   id="representative_phone"
-                  placeholder="Enter representative phone"
+                  placeholder=" representative phone"
                 />
               </div>
               <div class="form-group">
@@ -80,7 +79,7 @@
                   type="text"
                   class="form-control"
                   id="representative_address"
-                  placeholder="Enter representative address"
+                  placeholder="representative address"
                 />
               </div>
             <button type="submit" class="btn btn-primary">Request</button>

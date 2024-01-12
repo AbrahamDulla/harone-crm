@@ -58,7 +58,7 @@ async def login_post(request: Request, credentials: HTTPBasicCredentials = Depen
         if role == "admin":
                 return views.TemplateResponse("crm/dashboard.html", {"request": request, "username": username})
         elif role == "customer":
-                return views.TemplateResponse("web/register.html", {"request": request})
+                return views.TemplateResponse("web/request.html", {"request": request})
         else:
                 return views.TemplateResponse("login.html", {"request": request, "error_message": "Invalid role"})
     else:
