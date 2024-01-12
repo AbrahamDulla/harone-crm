@@ -1,14 +1,20 @@
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse
-from env.dbConnection import harone_crm_db
-from mariadb import connect, Error
-from sqlalchemy.orm import Session
+from env.dbConnection import get_database_connection, close_database_connection
+from services.userService import (get_user, get_users, create_user, update_user, delete_user)
+from mysql.connector import Error
+
 app = FastAPI()
 views = Jinja2Templates(directory="views")
 
-from services.userService import (get_user, get_users, create_user, update_user, delete_user)
+@app.on_event("startup")
+async def startup():
+    app.db_connection = get_database_connection()
 
+@app.on_event("shutdown")
+async def shutdown():
+    close_database_connection(app.db_connection)
 
 @app.get('/')
 async def redirect_to_login():
@@ -37,41 +43,33 @@ async def crmLogin(request: Request):
 @app.get("/abrelo")
 def ab(request: Request):
     return {"message": "abraham"}
-        
 
 # users routes
 @app.get("/users")
-def read_users(db = Depends(harone_crm_db)):
+def read_users(db=Depends(get_database_connection)):
     return get_users(db)
 
 @app.get("/users/{user_id}")
-def read_user(user_id: int, db = Depends(harone_crm_db)):
+def read_user(user_id: int, db=Depends(get_database_connection)):
     return get_user(db, user_id)
 
 @app.post("/users")
-def create_user(user_data, db = Depends(harone_crm_db)):
-    return create_user(db, user_data) 
+def create_user(user_data, db=Depends(get_database_connection)):
+    return create_user(db, user_data)
 
 @app.put("/users/{user_id}")
-def update_user(user_id: int, user_data, db = Depends(harone_crm_db)):
+def update_user(user_id: int, user_data, db=Depends(get_database_connection)):
     return update_user(db, user_id, user_data)
 
 @app.delete("/users/{user_id}")
-def delete_user(user_id: int, db = Depends(harone_crm_db)):
+def delete_user(user_id: int, db=Depends(get_database_connection)):
     delete_user(db, user_id)
     return {"message": "User deleted"}
 
-@app.get("/user")
+@app.get("/userrr")
 async def get_users():
     try:
-        with connect(
-            host="localhost",
-            port=3300,
-            user="root",
-            password="ziye245680",
-            database="harone_crm"
-        ) as connection:
-            cursor = connection.cursor()
+        with app.db_connection.cursor() as cursor:
             query = "SELECT * FROM users"
             cursor.execute(query)
             result = cursor.fetchall()
