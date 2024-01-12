@@ -2,10 +2,7 @@
 <html>
   <head>
     <title>Login Page</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <style>
       body {
         display: flex;
@@ -20,13 +17,14 @@
       <div class="row justify-content-center">
         <div class="col-md-4">
           <h4>Harone CRM</h4>
-          <form action="/request">
+          <form action="/login" method="post">
             <div class="form-group mt-3">
               <label for="username">Username</label>
               <input
                 type="text"
                 class="form-control"
                 id="username"
+                name="username"
                 placeholder="Enter your username"
               />
             </div>
@@ -36,11 +34,13 @@
                 type="password"
                 class="form-control"
                 id="password"
+                name="password"
                 placeholder="Enter your password"
               />
             </div>
+            <p class="text-danger">{{ error_message }}</p>
             <button type="submit" class="btn btn-primary">Login</button>
-            <a href="/login" class="btn btn-link">forget password</a>
+            <a href="/login" class="btn btn-link">Forgot password</a>
           </form>
         </div>
       </div>
