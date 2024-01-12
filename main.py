@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
 from env.dbConnection import harone_crm_db
+from mariadb import connect, Error
 from sqlalchemy.orm import Session
 app = FastAPI()
 views = Jinja2Templates(directory="views")
@@ -59,3 +60,31 @@ def update_user(user_id: int, user_data, db = Depends(harone_crm_db)):
 def delete_user(user_id: int, db = Depends(harone_crm_db)):
     delete_user(db, user_id)
     return {"message": "User deleted"}
+
+@app.get("/user")
+async def get_users():
+    try:
+        with connect(
+            host="localhost",
+            port=3300,
+            user="root",
+            password="ziye245680",
+            database="harone_crm"
+        ) as connection:
+            cursor = connection.cursor()
+            query = "SELECT * FROM users"
+            cursor.execute(query)
+            result = cursor.fetchall()
+
+            users = []
+            for row in result:
+                user = {
+                    "id": row[0],
+                    "name": row[1],
+                    "email": row[2]
+                }
+                users.append(user)
+
+            return JSONResponse(content=users)
+    except Error as e:
+        return JSONResponse(content={"error": str(e)})
