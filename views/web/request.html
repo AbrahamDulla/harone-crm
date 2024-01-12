@@ -12,14 +12,16 @@
       <div class="row justify-content-center">
         <div class="col-md-4 mt-5 mb-5">
           <h3>Request for onboard</h3>
-          <form>
+          <form action="http://localhost:8000/send/request" method="post">
             <div class="form-group">
               <label for="user_name">Company name</label>
               <input
                 type="text"
                 class="form-control"
                 id="user_name"
-                placeholder="company name"
+                name="company_name"
+                placeholder="Company name"
+                required
               />
             </div>
             <div class="form-group">
@@ -28,7 +30,9 @@
                 type="email"
                 class="form-control"
                 id="email"
-                placeholder="company email"
+                name="company_email"
+                placeholder="Company email"
+                required
               />
             </div>
             <div class="form-group">
@@ -37,54 +41,26 @@
                 type="text"
                 class="form-control"
                 id="business_address"
-                placeholder="business address"
+                name="business_address"
+                placeholder="Business address"
+                required
               />
             </div>
             <div class="form-group">
               <label for="industry">Industry</label>
-              <select class="form-control" id="industry" name="industry">
+              <select
+                class="form-control"
+                id="industry"
+                name="industry"
+                required
+              >
                 <option value="technology">Technology</option>
                 <option value="agriculture">Agriculture</option>
                 <option value="manufacturing">Manufacturing</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="representative">Representative name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="representative"
-                placeholder="representative"
-              />
-            </div>
-              <label for="representativeEmail">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="representativeEmail"
-                placeholder="representative email"
-              />
-              <div class="form-group">
-                <label for="representative_phone">Phone</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="representative_phone"
-                  placeholder=" representative phone"
-                />
-              </div>
-              <div class="form-group">
-                <label for="representative_address">Address</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="representative_address"
-                  placeholder="representative address"
-                />
-              </div>
             <button type="submit" class="btn btn-primary">Request</button>
             <a href="/login" class="btn btn-link">Logout</a>
-          </div>
           </form>
         </div>
       </div>
