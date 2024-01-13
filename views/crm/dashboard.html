@@ -47,38 +47,7 @@
             <li class="nav-item">
               <a class="nav-link" data-content="content1">Dashboard</a>
             </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                style="pointer-events: none; color: rgb(85, 83, 83)"
-                data-content="content2"
-                >Item 2</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                style="pointer-events: none; color: rgb(85, 83, 83)"
-                data-content="content3"
-                >Item 3</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                style="pointer-events: none; color: rgb(85, 83, 83)"
-                data-content="content4"
-                >Item 4</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                style="pointer-events: none; color: rgb(85, 83, 83)"
-                data-content="content5"
-                >Item 5</a
-              >
-            </li>
+            <!-- ... other nav items ... -->
             <li class="nav-item">
               <a class="nav-link" data-content="content6">Clients</a>
             </li>
@@ -87,27 +56,189 @@
             </li>
           </ul>
         </div>
-        <div
-          class="col-10 main-container"
-          style="height: 100vh; overflow-y: scroll; overflow-x: hidden"
-        >
-          <div
-            style="
-              height: 50px;
-              width: 78vw;
-              background-color: #ebebeb;
-              position: sticky;
-            "
-          ></div>
-          <div id="content1" class="content">This is for Dashboard</div>
-          <div id="content2" class="content">Content for Item 2</div>
-          <div id="content3" class="content">Content for Item 3</div>
-          <div id="content4" class="content">Content for Item 4</div>
-          <div id="content5" class="content">Content for Item 5</div>
-          <div id="content6" class="content">This is for Customers</div>
+        <div class="col-10 main-container">
+          <div id="content1" class="content">
+            <div class="container mt-3">
+              <div
+                class="mb-5"
+                style="
+                  background-color: #a0a8c0;
+                  color: aliceblue;
+                  height: 60px;
+                  display: flex;
+                  align-items: center;
+                "
+              ></div>
+            </div>
+            <div class="container mt-4">
+              <div class="row">
+                <div class="col-md-3">
+                  <div
+                    class="card"
+                    style="
+                      height: 120px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div
+                    class="card"
+                    style="
+                      height: 120px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div
+                    class="card"
+                    style="
+                      height: 120px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div
+                    class="card"
+                    style="
+                      height: 120px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-md-4">
+                  <div
+                    class="card"
+                    style="
+                      height: 230px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div
+                    class="card"
+                    style="
+                      height: 230px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div
+                    class="card"
+                    style="
+                      height: 230px;
+                      background-color: #929bad;
+                      color: aliceblue;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <label>Column 1</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="content6" class="content">
+            <div class="container mt-3">
+              <div
+                class="mb-5"
+                style="
+                  background-color: #a0a8c0;
+                  color: aliceblue;
+                  height: 60px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <h4 class="ml-2">Clients</h4>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Business Address</th>
+                    <th>Industry</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for client in clients %}
+                  <tr>
+                    <td>{{ client.company_name }}</td>
+                    <td>{{ client.company_email }}</td>
+                    <td>{{ client.business_address }}</td>
+                    <td>{{ client.industry }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <nav aria-label="Page navigation">
+                <ul class="pagination" id="clientsPagination">
+                  <!-- Client pagination items will be added dynamically here -->
+                </ul>
+              </nav>
+            </div>
+          </div>
           <div id="content7" class="content">
             <div class="container mt-3">
-              <h4>Onboarding requests</h4>
+              <div
+                class="mb-5"
+                style="
+                  background-color: #a0a8c0;
+                  color: aliceblue;
+                  height: 60px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <h4 class="ml-2">Onboard request</h4>
+              </div>
+              <div id="approvalMessage"></div>
               <table class="table">
                 <thead>
                   <tr>
@@ -116,29 +247,36 @@
                     <th>Business Address</th>
                     <th>Industry</th>
                     <th>Action</th>
-                    <!-- Added Action Column Header -->
                   </tr>
                 </thead>
                 <tbody id="customerTableBody">
                   {% for customer in customers %}
                   <tr>
-                    <td>aberelo</td>
-                    <!-- Assuming this is a placeholder, replace with {{ customer.company_name }} if needed -->
+                    <td>{{ customer.company_name }}</td>
                     <td>{{ customer.company_email }}</td>
                     <td>{{ customer.business_address }}</td>
                     <td>{{ customer.industry }}</td>
                     <td>
-                      <button class="btn btn-success btn-sm">Approve</button>
-                      <!-- Approve Button -->
+                      <form
+                        onsubmit="approveCustomer(event, this, {{ customer.id }})"
+                      >
+                        <input
+                          type="hidden"
+                          name="customer_id"
+                          value="{{ customer.id }}"
+                        />
+                        <button type="submit" class="btn btn-success btn-sm">
+                          Approve
+                        </button>
+                      </form>
                     </td>
                   </tr>
                   {% endfor %}
                 </tbody>
               </table>
-              <!-- Pagination Controls -->
               <nav aria-label="Page navigation">
-                <ul class="pagination" id="pagination">
-                  <!-- Pagination items will be added dynamically here -->
+                <ul class="pagination" id="customersPagination">
+                  <!-- Customer pagination items will be added dynamically here -->
                 </ul>
               </nav>
             </div>
@@ -157,45 +295,23 @@
             e.preventDefault();
             const contentId = this.getAttribute("data-content");
 
-            // Remove active class from all nav links
-            navLinks.forEach(function (navLink) {
-              navLink.classList.remove("active");
-            });
-
-            // Add active class to the clicked nav link
+            navLinks.forEach((navLink) => navLink.classList.remove("active"));
             this.classList.add("active");
-
-            // Hide all contents
-            contents.forEach(function (content) {
-              content.style.display = "none";
-            });
-
-            // Show the corresponding content
+            contents.forEach((content) => (content.style.display = "none"));
             document.getElementById(contentId).style.display = "block";
           });
         });
-      });
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const pageSize = 6; 
-        const customers = Array.from(
-          document.querySelectorAll("#customerTableBody tr")
-        );
-        const totalCustomers = customers.length;
-        const totalPages = Math.ceil(totalCustomers / pageSize);
 
-        function renderPage(page) {
-          const start = (page - 1) * pageSize;
-          const end = start + pageSize;
-          customers.forEach((customer, index) => {
-            customer.style.display =
-              index >= start && index < end ? "" : "none";
-          });
-        }
+        function setupPagination(
+          items,
+          pageSize,
+          paginationUlId,
+          renderPageFunction
+        ) {
+          const totalPages = Math.ceil(items.length / pageSize);
+          const paginationUl = document.getElementById(paginationUlId);
+          paginationUl.innerHTML = "";
 
-        function setupPagination() {
-          const paginationUl = document.getElementById("pagination");
           for (let i = 1; i <= totalPages; i++) {
             const li = document.createElement("li");
             li.className = "page-item";
@@ -205,19 +321,81 @@
             a.className = "page-link";
             a.addEventListener("click", (e) => {
               e.preventDefault();
-              renderPage(i);
+              renderPageFunction(i);
             });
             li.appendChild(a);
             paginationUl.appendChild(li);
           }
         }
 
-        // Initial setup
-        setupPagination();
-        renderPage(1); // Render the first page initially
+        function renderClientsPage(page) {
+          const clients = Array.from(
+            document.querySelectorAll("#content6 tbody tr")
+          );
+          const start = (page - 1) * 6;
+          const end = start + 6;
+          clients.forEach((client, index) => {
+            client.style.display = index >= start && index < end ? "" : "none";
+          });
+        }
 
-        // Your existing navLinks code
-        // ...
+        function renderCustomersPage(page) {
+          const customers = Array.from(
+            document.querySelectorAll("#customerTableBody tr")
+          );
+          const start = (page - 1) * 6;
+          const end = start + 6;
+          customers.forEach((customer, index) => {
+            customer.style.display =
+              index >= start && index < end ? "" : "none";
+          });
+        }
+
+        const clients = Array.from(
+          document.querySelectorAll("#content6 tbody tr")
+        );
+        setupPagination(clients, 6, "clientsPagination", renderClientsPage);
+
+        const customers = Array.from(
+          document.querySelectorAll("#customerTableBody tr")
+        );
+        setupPagination(
+          customers,
+          6,
+          "customersPagination",
+          renderCustomersPage
+        );
+
+        renderClientsPage(1);
+        renderCustomersPage(1);
+      });
+
+      function approveCustomer(event, form, customerId) {
+        event.preventDefault();
+
+        fetch("/customer/approve", {
+          method: "POST",
+          body: new FormData(form),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("approvalMessage").innerText =
+              "Customer approved successfully";
+          })
+          .catch((error) => {
+            document.getElementById("approvalMessage").innerText =
+              "Error approving customer";
+            console.error("Error:", error);
+          });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const dashboardLink = document.querySelector(
+          '.nav-link[data-content="content1"]'
+        );
+        if (dashboardLink) {
+          dashboardLink.click();
+        }
       });
     </script>
   </body>

@@ -22,6 +22,7 @@ class Customer(BaseModel):
     company_email: str
     business_address: str
     industry: str
+    approved: Optional[bool] = None
 
 
 @app.on_event("startup")
@@ -131,11 +132,41 @@ from fastapi import Request
 async def crm(request: Request, db=Depends(get_database_connection)):
     try:
         with db.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM customers")
-            customers = cursor.fetchall()
-            return views.TemplateResponse("crm/dashboard.html", {"request": request, "customers": customers})
+            # Fetch unapproved customers
+            cursor.execute("SELECT * FROM customers WHERE approved = 0")
+            unapproved_customers = cursor.fetchall()
+
+            # Fetch approved customers
+            cursor.execute("SELECT * FROM customers WHERE approved = 1")
+            approved_customers = cursor.fetchall()
+
+            # Pass both lists to the template
+            return views.TemplateResponse("crm/dashboard.html", {
+                "request": request, 
+                "customers": unapproved_customers,
+                "clients": approved_customers  # Added this line
+            })
     except Error as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
+@app.post("/customer/approve")
+async def approve_customer(customer_id: int = Form(...), db=Depends(get_database_connection)):
+    try:
+        with db.cursor() as cursor:
+            query = "UPDATE customers SET approved = %s WHERE id = %s"
+            cursor.execute(query, (True, customer_id))
+            db.commit()
+
+            if cursor.rowcount == 0:
+                return JSONResponse(content={"error": "Customer not found"}, status_code=status.HTTP_404_NOT_FOUND)
+            
+            return JSONResponse(content={"message": "Customer approved successfully"})
+    except Error as e:
+        return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
