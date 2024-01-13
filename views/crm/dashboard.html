@@ -45,14 +45,13 @@
           <h4 style="margin-top: 60px">HARONE CRM</h4>
           <ul class="nav flex-column mt-5">
             <li class="nav-item">
-              <a class="nav-link" data-content="content1">Dashboard</a>
-            </li>
-            <!-- ... other nav items ... -->
-            <li class="nav-item">
-              <a class="nav-link" data-content="content6">Clients</a>
+              <a class="nav-link active" data-content="content1">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-content="content7">Onboard screen</a>
+              <a class="nav-link" data-content="content6">Customers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-content="content7">Onboard</a>
             </li>
           </ul>
         </div>
@@ -195,7 +194,7 @@
                   align-items: center;
                 "
               >
-                <h4 class="ml-2">Clients</h4>
+                <h4 class="ml-2">Customers</h4>
               </div>
               <table class="table">
                 <thead>
@@ -332,8 +331,8 @@
           const clients = Array.from(
             document.querySelectorAll("#content6 tbody tr")
           );
-          const start = (page - 1) * 6;
-          const end = start + 6;
+          const start = (page - 1) * 5;
+          const end = start + 5;
           clients.forEach((client, index) => {
             client.style.display = index >= start && index < end ? "" : "none";
           });
@@ -343,8 +342,8 @@
           const customers = Array.from(
             document.querySelectorAll("#customerTableBody tr")
           );
-          const start = (page - 1) * 6;
-          const end = start + 6;
+          const start = (page - 1) * 5;
+          const end = start + 5;
           customers.forEach((customer, index) => {
             customer.style.display =
               index >= start && index < end ? "" : "none";
@@ -354,7 +353,7 @@
         const clients = Array.from(
           document.querySelectorAll("#content6 tbody tr")
         );
-        setupPagination(clients, 6, "clientsPagination", renderClientsPage);
+        setupPagination(clients, 5, "clientsPagination", renderClientsPage);
 
         const customers = Array.from(
           document.querySelectorAll("#customerTableBody tr")
