@@ -1,13 +1,14 @@
 class AuthService:
-    def __init__(self):
-        self.users = {
-            "abraham": "12341234",
-            "surafel": "12341234",
-        }
+    async def authenticate_user(self, db, name: str, password: str):
+        try:
+            with db.cursor() as cursor:
+                query = "SELECT password FROM users WHERE name = %s"
+                cursor.execute(query, (name.lower(),))
+                result = cursor.fetchone()
 
-    async def authenticate_user(self, username: str, password: str):
-        # Ensure the following lines are indented correctly
-        username = username.lower()  # This line should be indented inside the function
-        if username in (user.lower() for user in self.users) and self.users[username] == password:
-            return True
-        return False
+                if result and result[0] == password:
+                    return True
+                return False
+        except Exception as e:
+            print(f"Error: {e}")
+            return False

@@ -17,6 +17,13 @@ app = FastAPI()
 views = Jinja2Templates(directory="views")
 
 
+class User(BaseModel):
+    name: str
+    email: str
+    password: str  
+    address: str = "address"
+    role: str = "customer"
+
 class Customer(BaseModel):
     company_name: str
     company_email: str
@@ -77,11 +84,10 @@ def get_user_by_name(name: str, db):
 
 
 @app.post("/login")
-async def login_post(request: Request, username: str = Form(...), password: str = Form(...), db=Depends(get_database_connection)):
-    
-
-    if await auth_service.authenticate_user(username, password):
-        user = get_user_by_name(username, db)
+async def login_post(request: Request, name: str = Form(...), password: str = Form(...), db=Depends(get_database_connection)):
+    auth_service = AuthService()
+    if await auth_service.authenticate_user(db, name, password):
+        user = get_user_by_name(name, db)
         if user:
             role = user['role'] 
             print("Role:", role)
@@ -101,6 +107,7 @@ async def login_post(request: Request, username: str = Form(...), password: str 
 
 
 # Customer Routers
+    
 # Request for onboarding
 @app.post("/send/request", status_code=status.HTTP_201_CREATED)
 async def create_post(request: Request, db=Depends(get_database_connection)):
@@ -122,6 +129,31 @@ async def create_post(request: Request, db=Depends(get_database_connection)):
             return JSONResponse(content={"message": customer.company_name + " Requested successfully", "request_id": request_id})
     except Error as e:
         return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_400_BAD_REQUEST)
+    
+
+
+# Register as a user
+@app.post("/register", status_code=status.HTTP_201_CREATED)
+async def create_user(request: Request, db=Depends(get_database_connection)):
+    form = await request.form()
+    user = User(
+        name=form.get("name"),
+        email=form.get("email"),
+        password=form.get("password"),
+        address="address",
+        role="customer"
+    )
+    try:
+        with db.cursor() as cursor:
+            query = "INSERT INTO users (name, email, password, address, role) VALUES (%s, %s, %s, %s, %s)"
+            values = (user.name, user.email, user.password, user.address, user.role)
+            cursor.execute(query, values)
+            db.commit()
+            
+            user_id = cursor.lastrowid
+            return RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
+    except Error as e:
+        return JSONResponse(content={"error": str(e)}, status_code=status.HTTP_400_BAD_REQUEST)
 
 
     
@@ -132,19 +164,16 @@ from fastapi import Request
 async def crm(request: Request, db=Depends(get_database_connection)):
     try:
         with db.cursor(dictionary=True) as cursor:
-            # Fetch unapproved customers
             cursor.execute("SELECT * FROM customers WHERE approved = 0")
             unapproved_customers = cursor.fetchall()
 
-            # Fetch approved customers
             cursor.execute("SELECT * FROM customers WHERE approved = 1")
             approved_customers = cursor.fetchall()
 
-            # Pass both lists to the template
             return views.TemplateResponse("crm/dashboard.html", {
                 "request": request, 
                 "customers": unapproved_customers,
-                "clients": approved_customers  # Added this line
+                "clients": approved_customers  
             })
     except Error as e:
         raise HTTPException(status_code=500, detail=str(e))
